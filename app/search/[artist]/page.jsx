@@ -17,15 +17,25 @@ export default async function Page({ params: { artist } }) {
 	});
 
 	const browsePromise = await musicBrainzBrowse(
-		"release-groups",
+		"release-group",
 		"artist",
-		found.id
+		found.id,
+		{ type: "album" }
 	);
+
+	const { ["release-groups"]: releaseGroups } = await browsePromise.json();
+
+	const filteredGroups = releaseGroups.map((group) => {
+		return { id: group.id, title: group.title };
+	});
+
+	const { id, name } = found;
+	const test = { arid: id, name };
 
 	return (
 		<>
-			<pre>{JSON.stringify(found, null, 2)}</pre>
-			<pre>{JSON.stringify(browsePromise, null, 2)}</pre>
+			<pre>{JSON.stringify(test, null, 2)}</pre>
+			<pre>{JSON.stringify(filteredGroups, null, 2)}</pre>
 		</>
 	);
 }

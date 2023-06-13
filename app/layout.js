@@ -11,13 +11,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en" data-theme="light">
-			<body className={inter.className}>
-				<div className=" border-purple-400 h-screen w-[90%] mx-auto flex flex-col justify-between">
-					<header className="h-[5%] border-2 border-black">
+			<body className={`${inter.className} border-8 border-emerald-800 min-h-[100cqh]`} >
+				<div className="border-yellow-400 border-2 w-[90%] mx-auto flex flex-col flex-1 min-h-[100cqh] justify-between">
+					<header className="border-2 border-black">
 						<div className="headercontent">Header</div>
 					</header>
-					<main className="border-2 border-blue-700 flex h-full">
-						<div className="contentwrapper border-8 border-orange-500 flex flex-col flex-1 items-center">
+					<main className="border-2 border-blue-700 flex justify-center grow">
+						<div className="contentwrapper border-8 border-orange-500 flex flex-col items-center">
 							{children}
 						</div>
 					</main>
@@ -31,6 +31,6 @@ export default function RootLayout({ children }) {
 					{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 				</div>
 			</body>
-		</html>
+		</html >
 	)
 }
