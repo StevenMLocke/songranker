@@ -20,14 +20,22 @@ export default async function Page({ params: { artist } }) {
 		"release-group",
 		"artist",
 		found.id,
-		{ type: "album" }
+		{ type: "album|ep" }
 	);
 
 	const { ["release-groups"]: releaseGroups } = await browsePromise.json();
 
-	const filteredGroups = releaseGroups.map((group) => {
-		return { id: group.id, title: group.title };
-	});
+	const filteredGroups = releaseGroups.filter((group) => {
+		return (
+			group["secondary-types"][0] !== "Live" &&
+			group["secondary-types"][0] !== "Compilation" &&
+			group["secondary-types"][0] !== "Remix" &&
+			group["secondary-types"][0] !== "Demo"
+		);
+	}); /* 
+		.map((group) => {
+			return { id: group.id, title: group.title };
+		}); */
 
 	const { id, name } = found;
 	const test = { arid: id, name };
