@@ -15,10 +15,7 @@ export function SearchForm() {
 	};
 
 	return (
-		<Form.Root
-			action={`/search/${formFields}`}
-			className='border-2 border-black'
-		>
+		<Form.Root action={`/search/artist/${formFields}`}>
 			<Form.Field className='border-2 input-group'>
 				<Form.Submit className='btn btn-neutral rounded-md'>Search</Form.Submit>
 				<Form.Control asChild>
@@ -31,6 +28,7 @@ export function SearchForm() {
 					></input>
 				</Form.Control>
 			</Form.Field>
+			{/* <pre>{JSON.stringify(formFields, null, 2)}</pre> */}
 		</Form.Root>
 	);
 }
