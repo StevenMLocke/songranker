@@ -59,8 +59,10 @@ export default async function Page({ params }) {
 	const spotSecret = process.env.SPOTIFY_CLIENT_SECRET;
 	const spotToken = await spotAuth(spotId, spotSecret);
 
-	const spotArtistsList = await getSpotifySearchArtistsList(artist, spotToken);
-	const artistsCards = spotArtistsList.map((spotArtist) => {
+	const spotArtistsList = await getSpotifySearchArtistsList(artist, spotToken, {
+		limit: 10,
+	});
+	const artistsCards = spotArtistsList.artists.items.map((spotArtist) => {
 		return (
 			<ArtistCard
 				fallbackImage={"/noImage.gif"}
