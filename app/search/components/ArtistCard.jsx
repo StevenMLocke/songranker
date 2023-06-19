@@ -9,7 +9,7 @@ export function ArtistCard({ imageUrl, fallbackImage, name, id }) {
 				id={id}
 				className='card card-bordered w-24 md:w-44 2xl:w-56 bg-base-100 shadow-xl'
 			>
-				<figure className='flex'>
+				<figure className='flex border-2 border-black'>
 					<div className='avatar'>
 						<div>
 							<Image
