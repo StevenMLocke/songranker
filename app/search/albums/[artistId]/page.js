@@ -8,32 +8,46 @@ export default async function Albums({ params: { artistId } }) {
 	const spotToken = await spotAuth(spotId, spotSecret);
 
 	const count = await getSpotifyArtistsAlbumsCount(artistId, spotToken, { include_groups: 'compilation,single,album', })
+
+	//fetch the albums in parallel to help prevent waterfalls
 	const preAlbums = await getSpotifyPaged(count, getSpotifyAlbums, artistId, spotToken, 50, { include_groups: 'compilation,album,single', limit: 50, })
-	//collect albumids and get tracks for each
+
 	const albumIds = preAlbums.map((album) => { return album.id })
 
-	//then build album cards
-	/* 	const albumCards = albums.map((album) => {
-			return (
-				<AlbumCard
-					key={album.id}
-					id={album.id}
-					name={album.name}
-					imageUrl={album.images.length ? album.images[0].url : null}
-					fallbackImage={"/noImage.gif"}
-				></AlbumCard>
+	//get albums and their tracks by album id. tracks can't be fetched when getting albums by artist as done above.
+	const allAlbumsRes = await getSpotifySeveralAlbums(albumIds, spotToken)
+
+	const allAlbums = []
+	allAlbumsRes.forEach((albumsSet) => {
+		albumsSet.albums.forEach((album) => {
+			allAlbums.push(
+				{
+					name: album.name,
+					id: album.id,
+					artists: album.artists.map((artist) => { return artist.name }).toString(),
+					images: album.images,
+					tracks: album.tracks.items.map((track) => {
+						return {
+							id: track.id,
+							name: track.name,
+							track_number: track.track_number,
+							url: track.external_urls.spotify,
+						}
+					})
+				}
 			)
-		}) */
+		})
+	})
 
-	const [testGroups] = await getSpotifySeveralAlbums(albumIds, spotToken)
-	const { albums } = testGroups
+	const albumCards = allAlbums.map((album) => {
+		return (
+			<AlbumCard
+				key={album.id}
+				album={album}
+				fallbackImage={"/noImage.gif"}
+			></AlbumCard>
+		)
+	})
 
-	return (
-		<>
-			{/* <CardGrid items={albumCards}></CardGrid> */}
-			<div className="w-[75%] border-4 border-orange-400 break-all">
-				<pre className="whitespace-break-spaces">{JSON.stringify(albums, null, 2)}</pre>
-			</div>
-		</>
-	)
+	return <CardGrid items={albumCards}></CardGrid>
 }
