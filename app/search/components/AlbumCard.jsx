@@ -3,8 +3,9 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { TracksList } from "./tracksList";
 
-export function AlbumCard({ album, fallbackImage }) {
+export function AlbumCard({ album, fallbackImage, selectHandler }) {
 	const [tracksListVis, setTracksListVis] = useState(false);
+	const [albumSelected, setAlbumSelected] = useState(false);
 	const cardRef = useRef();
 	const dismissHandler = () => {
 		setTracksListVis(false);
@@ -25,7 +26,10 @@ export function AlbumCard({ album, fallbackImage }) {
 				id={album.id}
 				className='card card-compact card-bordered w-40 bg-base-100 shadow-xl overflow-hidden'
 			>
-				<div className='absolute border-4 border-accent-focus bg-gray-400 bg-opacity-60 top-2 right-2 rounded-full w-8 h-8 z-10'></div>
+				<div
+					className='absolute border-4 border-accent-focus bg-gray-400 bg-opacity-60 top-2 right-2 rounded-full w-8 h-8 z-10'
+					onClick={() => selectHandler(album)}
+				></div>
 				<figure className='flex'>
 					<div className='avatar border-b-2 border-black'>
 						<div>

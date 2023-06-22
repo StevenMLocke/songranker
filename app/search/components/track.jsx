@@ -3,9 +3,9 @@ export function Track({ track }) {
 		<a
 			href={track.url}
 			target={`_blank`}
-			className='btn btn-xs btn-ghost text-xs'
+			className='btn btn-ghost text-xs'
 		>
-			{track.name}
+			<p className='prose line-clamp-2'>{track.name}</p>
 		</a>
 	);
 }

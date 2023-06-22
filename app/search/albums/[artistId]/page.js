@@ -1,6 +1,8 @@
-import { spotAuth, getSpotifyAlbums, getSpotifyArtistsAlbumsCount, getSpotifyPaged, getSpotifySeveralAlbums } from "@/lib/spotify"
+import { spotAuth, getSpotifyAlbums, getSpotifyArtistsAlbumsCount, getSpotifyPaged, getSpotifySeveralAlbums, getSpotifyAlbumTrackCount, getSpotifyTracks } from "@/lib/spotify"
 import { AlbumCard } from "../../components/AlbumCard";
 import { CardGrid } from "@/app/components/CardGrid";
+import { AlbumCardsClientWrapper } from "../../components/AlbumCardsClientWrapper";
+import { NextRequest } from "next/server";
 
 export default async function Albums({ params: { artistId } }) {
 	const spotId = process.env.SPOTIFY_CLIENT_ID;
@@ -12,42 +14,37 @@ export default async function Albums({ params: { artistId } }) {
 	//fetch the albums in parallel to help prevent waterfalls
 	const preAlbums = await getSpotifyPaged(count, getSpotifyAlbums, artistId, spotToken, 50, { include_groups: 'compilation,album,single', limit: 50, })
 
-	const albumIds = preAlbums.map((album) => { return album.id })
-
 	//get albums and their tracks by album id. tracks can't be fetched when getting albums by artist as done above.
-	const allAlbumsRes = await getSpotifySeveralAlbums(albumIds, spotToken)
 
 	const allAlbums = []
-	allAlbumsRes.forEach((albumsSet) => {
-		albumsSet.albums.forEach((album) => {
-			allAlbums.push(
-				{
-					name: album.name,
-					id: album.id,
-					artists: album.artists.map((artist) => { return artist.name }).toString(),
-					images: album.images,
-					tracks: album.tracks.items.map((track) => {
-						return {
-							id: track.id,
-							name: track.name,
-							track_number: track.track_number,
-							url: track.external_urls.spotify,
-						}
-					})
-				}
-			)
-		})
-	})
 
-	const albumCards = allAlbums.map((album) => {
-		return (
-			<AlbumCard
-				key={album.id}
-				album={album}
-				fallbackImage={"/noImage.gif"}
-			></AlbumCard>
+	for (const album of preAlbums) {
+		const trackCount = await getSpotifyAlbumTrackCount(album.id, spotToken, { limit: 1 })
+		album.tracks = await getSpotifyPaged(trackCount, getSpotifyTracks, album.id, spotToken, 50, { limit: 50 })
+	}
+
+
+	preAlbums.forEach((album) => {
+		allAlbums.push(
+			{
+				name: album.name,
+				id: album.id,
+				artists: album.artists.map((artist) => { return artist.name }).toString(),
+				images: album.images,
+				tracks: album.tracks.map((track) => {
+					return {
+						id: track.id,
+						name: track.name,
+						track_number: track.track_number,
+						url: track.external_urls.spotify,
+					}
+				})
+			}
 		)
 	})
 
-	return <CardGrid items={albumCards}></CardGrid>
+	return <>
+		{/* <pre>{JSON.stringify(preAlbums, null, 2)}</pre> */}
+		<AlbumCardsClientWrapper albums={allAlbums}></AlbumCardsClientWrapper>
+	</>
 }

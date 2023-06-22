@@ -25,8 +25,8 @@ export function TracksList({
 			onClick={dismissHandler}
 			className='modal'
 		>
-			<div className='flex justify-center max-h-full'>
-				<div className='card card-bordered p-2 shadow-lg max-h-full z-30 prose-2xl bg-neutral-100'>
+			<div className='flex justify-center max-h-[90cqh] border-4 border-yellow-400 w-full'>
+				<div className='card card-bordered p-2 shadow-lg max-h-full lg:max-w-[50%] z-30 prose-2xl bg-neutral-100'>
 					<div className='card-title flex gap-2 border-b-2 border-black justify-between'>
 						<h3>
 							{artistName} - {albumName}
