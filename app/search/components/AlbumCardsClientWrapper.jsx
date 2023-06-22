@@ -40,16 +40,9 @@ export function AlbumCardsClientWrapper({ albums }) {
 	);
 
 	return (
-		<div className='border-2 border-black'>
+		<>
 			<CardGrid items={albumCards}></CardGrid>
-			<Link
-				prefetch={false}
-				href={`/rank/list/${selectedAlbums}`}
-				className='btn btn-primary btn-circle btn-wide btn-lg'
-			>
-				Go Go Gadget Rank!
-			</Link>
-			<pre>{JSON.stringify(selectedAlbums, null, 2)}</pre>
-		</div>
+			{/* <pre>{JSON.stringify(selectedAlbums, null, 2)}</pre> */}
+		</>
 	);
 }

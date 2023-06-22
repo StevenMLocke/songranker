@@ -2,22 +2,33 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { TracksList } from "./tracksList";
+import { getTracks } from "@/lib/serverFuncs";
 
 export function AlbumCard({ album, fallbackImage, selectHandler }) {
 	const [tracksListVis, setTracksListVis] = useState(false);
-	const [albumSelected, setAlbumSelected] = useState(false);
+	const [tracksList, setTracksList] = useState([]);
+
 	const cardRef = useRef();
+
 	const dismissHandler = () => {
 		setTracksListVis(false);
 	};
+
+	const tracklistShowHandler = async (albumId) => {
+		if (tracksList.length === 0) {
+			const tracks = await getTracks(albumId);
+			setTracksList(() => tracks);
+		}
+		setTracksListVis((p) => !p);
+	};
+
 	return (
 		<>
 			<TracksList
 				vis={tracksListVis}
 				dismissHandler={dismissHandler}
-				tracksList={album.tracks}
-				albumName={album.name}
-				artistName={album.artists}
+				tracksList={tracksList}
+				album={album}
 			></TracksList>
 
 			<div
@@ -39,7 +50,7 @@ export function AlbumCard({ album, fallbackImage, selectHandler }) {
 								}
 								width={160}
 								height={160}
-								alt={`artist photo`}
+								alt={`album photo`}
 							></Image>
 						</div>
 					</div>
@@ -52,8 +63,8 @@ export function AlbumCard({ album, fallbackImage, selectHandler }) {
 					</div>
 					<div
 						className='border-t-2 border-black bg-neutral-200 flex justify-center px-1 hover:cursor-pointer'
-						onClick={() => {
-							setTracksListVis((p) => !p);
+						onClick={async () => {
+							await tracklistShowHandler(album.id);
 						}}
 					>
 						Tracks List

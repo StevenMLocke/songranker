@@ -11,13 +11,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en" data-theme="light">
-			<body className={`${inter.className} `} >
+			<body className={`${inter.className} overflow-hidden`} >
 				<div className=" lg:w-[90%] mx-auto flex flex-col justify-between border-box min-h-[100cqh]">
 					<header className="border-b-2 border-black">
 						<div className="headercontent bg-neutral-400">Header</div>
 					</header>
-					<main className="flex flex-1 justify-center box-border ">
-						<div className="contentwrapper max-w-[100cqw] box-border flex flex-col items-center gap-2 my-2 border-2 border-yellow-400 overflow-y-auto">
+					<main className="flex flex-1 justify-center box-border">
+						<div className="contentwrapper max-w-[100cqw] box-border flex flex-col items-center gap-2 my-2">
 							{children}
 						</div>
 					</main>

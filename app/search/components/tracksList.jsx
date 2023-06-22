@@ -2,13 +2,7 @@
 import { useRef, useEffect } from "react";
 import { Track } from "./track";
 
-export function TracksList({
-	vis,
-	dismissHandler,
-	tracksList,
-	artistName,
-	albumName,
-}) {
+export function TracksList({ vis, dismissHandler, tracksList, album }) {
 	const dialogRef = useRef();
 
 	useEffect(() => {
@@ -25,11 +19,11 @@ export function TracksList({
 			onClick={dismissHandler}
 			className='modal'
 		>
-			<div className='flex justify-center max-h-[90cqh] border-4 border-yellow-400 w-full'>
+			<div className='flex justify-center max-h-[90cqh] w-full'>
 				<div className='card card-bordered p-2 shadow-lg max-h-full lg:max-w-[50%] z-30 prose-2xl bg-neutral-100'>
-					<div className='card-title flex gap-2 border-b-2 border-black justify-between'>
-						<h3>
-							{artistName} - {albumName}
+					<div className='card-title flex gap-2 border-b-2 border-black justify-between prose pb-2'>
+						<h3 className='line-clamp-2 ml-2'>
+							{album.artists} - {album.name}
 						</h3>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -58,6 +52,7 @@ export function TracksList({
 								);
 							})}
 						</ul>
+						{/* <pre>{JSON.stringify(tracksList, null, 2)}</pre> */}
 					</div>
 				</div>
 			</div>

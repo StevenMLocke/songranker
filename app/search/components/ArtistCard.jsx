@@ -7,24 +7,24 @@ export function ArtistCard({ imageUrl, fallbackImage, name, id }) {
 			<div
 				key={id}
 				id={id}
-				className='card card-bordered w-24 md:w-44 2xl:w-56 bg-base-100 shadow-xl'
+				className='card card-compact card-bordered w-40 bg-base-100 shadow-xl overflow-hidden'
 			>
-				<figure className='flex border-2 border-black'>
-					<div className='avatar'>
+				<figure className='flex'>
+					<div className='avatar border-b-2 border-black'>
 						<div>
 							<Image
 								src={imageUrl ? imageUrl : fallbackImage}
-								width={640}
-								height={640}
+								width={320}
+								height={320}
 								alt={`artist photo`}
 							></Image>
 						</div>
 					</div>
 				</figure>
-				<div className='flex justify-center grow-0 px-1 mx-1 overflow-hidden'>
-					<h3 className='card-title text-xs sm:text-sm md:text:md lg:text-lg'>
+				<div className='flex flex-1 justify-center items-center mx-1'>
+					<p className='card-title line-clamp-3 text-xs sm:text-sm xl:text-base 2xl:text-lg break-words text-center '>
 						{name}
-					</h3>
+					</p>
 				</div>
 			</div>
 		</Link>
