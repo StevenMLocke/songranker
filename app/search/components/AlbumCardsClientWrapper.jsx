@@ -2,9 +2,8 @@
 import { CardGrid } from "@/app/components/CardGrid";
 import { AlbumCard } from "./AlbumCard";
 import { useState, useMemo } from "react";
-import Link from "next/link";
 
-export function AlbumCardsClientWrapper({ albums }) {
+export function AlbumCardsClientWrapper({ albums, spotifyToken }) {
 	const [selectedAlbums, setSelectedAlbums] = useState([]);
 
 	const albumSelectHandler = (album) => {
@@ -28,6 +27,7 @@ export function AlbumCardsClientWrapper({ albums }) {
 			albums.map((album) => {
 				return (
 					<AlbumCard
+						spotifyToken={spotifyToken}
 						key={album.id}
 						album={album}
 						selectHandler={albumSelectHandler}

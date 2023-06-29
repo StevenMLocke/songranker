@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -22,9 +23,9 @@ export default function RootLayout({ children }) {
 						</div>
 					</main>
 					<footer className=" w-full flex justify-around border-t-2 border-black gap-2 p-1">
-						<div className="w-80 bg-neutral-400 p-1">Footer stuff</div>
+						<div className="w-80 bg-neutral-400 p-1">			<Link href={'/api/auth/signin'} className="btn">Sign In</Link></div>
 						<div className="w-80 bg-neutral-400 p-1">Footer things</div>
-						<div className="w-80 bg-neutral-400 p-1">Oh my GOD what is THAT!!!?!?</div>
+						<div className="w-80 bg-neutral-400 p-1"><Link href={'/api/auth/signout'} className="btn"> Sign Out</Link></div>
 					</footer>
 					{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 				</div>

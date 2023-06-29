@@ -1,10 +1,14 @@
-import { spotAuth } from "@/lib/spotify"
+import { authOptions } from "./api/auth/[...nextauth]/route"
+import { getServerSession } from "next-auth/next"
+
 export default async function Home() {
-	const token = await spotAuth(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET)
+	const session = await getServerSession(authOptions)
+
 	return (
 		<>
 			Things go here
-			{JSON.stringify(token, null, 2)}
+			<pre>{JSON.stringify(session, null, 2)}</pre>
+
 		</>
 	)
 }

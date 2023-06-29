@@ -4,7 +4,12 @@ import { useRef, useState } from "react";
 import { TracksList } from "./tracksList";
 import { getTracks } from "@/lib/serverFuncs";
 
-export function AlbumCard({ album, fallbackImage, selectHandler }) {
+export function AlbumCard({
+	album,
+	fallbackImage,
+	selectHandler,
+	spotifyToken,
+}) {
 	const [tracksListVis, setTracksListVis] = useState(false);
 	const [tracksList, setTracksList] = useState([]);
 
@@ -16,7 +21,7 @@ export function AlbumCard({ album, fallbackImage, selectHandler }) {
 
 	const tracklistShowHandler = async (albumId) => {
 		if (tracksList.length === 0) {
-			const tracks = await getTracks(albumId);
+			const tracks = await getTracks(albumId, spotifyToken);
 			setTracksList(() => tracks);
 		}
 		setTracksListVis((p) => !p);
