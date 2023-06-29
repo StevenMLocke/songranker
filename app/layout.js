@@ -27,7 +27,6 @@ export default function RootLayout({ children }) {
 						<div className="w-80 bg-neutral-400 p-1">Footer things</div>
 						<div className="w-80 bg-neutral-400 p-1"><Link href={'/api/auth/signout'} className="btn"> Sign Out</Link></div>
 					</footer>
-					{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 				</div>
 			</body>
 		</html >

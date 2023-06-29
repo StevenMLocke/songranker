@@ -28,7 +28,6 @@ export function SearchForm() {
 					></input>
 				</Form.Control>
 			</Form.Field>
-			{/* <pre>{JSON.stringify(formFields, null, 2)}</pre> */}
 		</Form.Root>
 	);
 }
